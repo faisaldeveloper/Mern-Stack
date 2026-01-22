@@ -1,10 +1,11 @@
 import { Container, Flex, Text, Link } from '@chakra-ui/react'
+import { Link as RouterLink } from "react-router-dom";
 import React from 'react'
 import { useColorMode, useColorModeValue } from "@/components/ui/color-mode"
 import { HStack, Button } from '@chakra-ui/react'
-import { GiHamburgerMenu } from "react-icons/gi"
 import { IoMoon } from 'react-icons/io5'
 import { LuSun } from 'react-icons/lu'
+import { HiPlus } from 'react-icons/hi'; // Heroicons version
 
 const Navbar = () => {
   const { colorMode, toggleColorMode } = useColorMode()
@@ -21,15 +22,16 @@ const Navbar = () => {
 					bgGradient={"linear(to-r, cyan.400, blue.500)"}
 					bgClip={"text"}
       >
-      	<Link to={"/"}>Product Store 🛒</Link>
+		 <Link as={RouterLink} style={{ textDecoration: 'none' }}  to={"/"}>Product Store 🛒</Link>
+      	 
       </Text> 
 
       <HStack spacing={2} alignItems={"center"}>
-					<Link to={"/create"}>
+					<RouterLink to={"/create"}>
 						<Button>
-							<GiHamburgerMenu fontSize={20} />
+							<HiPlus fontSize={20} color="yellow" />
 						</Button>
-					</Link>
+					</RouterLink>
 					<Button onClick={toggleColorMode}>
 						{colorMode === "light" ? <IoMoon /> : <LuSun size='20' />}
 					</Button>

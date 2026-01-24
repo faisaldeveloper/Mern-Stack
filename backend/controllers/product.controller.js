@@ -12,15 +12,8 @@ export const getProducts = async (req, res) => {
 };
 
 export const createProduct = async (req, res) => {
-	//const product = req.body;
-
-	const product = {
-		name: "iPhone-2 13",
-		price: 888,
-		description: "Latest iPhone model2",
-		image: "https://example.com/iphone13-2.jpg"
-	};
-
+	const product = req.body;
+		
 	if(!product.name || !product.price || !product.description || !product.image){ 
 		return res.status(400).json({ success: false, message: 'All fields are required' });	
 	}

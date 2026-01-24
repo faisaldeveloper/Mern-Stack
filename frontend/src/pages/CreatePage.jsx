@@ -2,6 +2,8 @@ import React from 'react'
 import { useState } from 'react';
 import { Box, Container, Heading, VStack, Input, Button } from "@chakra-ui/react"
 import { useColorModeValue } from "@/components/ui/color-mode"
+import  {useProductStore}  from "@/store/product";
+
 
 const CreatePage = () => {
 
@@ -12,11 +14,24 @@ const CreatePage = () => {
     image: ""
   });
 
-  const handleNewProduct = () => {
+  const {addProduct} = useProductStore();
+
+  const handleNewProduct = async() => {
     // Logic to handle new product creation
-    console.log("New Product Created:", newProduct);
+   //console.log("New Product Created:", newProduct);
+    const {success, message} = await addProduct(newProduct);
+    if(success){      
+      console.log("msg:", message);
+    }else{
+      console.log("Product Creation Failed::: ", message);
+    }
     // Reset form
-   
+    setNewProduct({
+      name: "",
+      description: "",
+      price: 0,
+      image: ""
+    });
   }
 
 

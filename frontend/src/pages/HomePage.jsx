@@ -29,11 +29,15 @@ const HomePage = () => {
           <ProductCard key={product._id} product={product} />
         ))}
       </SimpleGrid>
-      
-      <Text fontSize={15} fontWeight={"bold"} mb={4} textAlign={"center"}>
+
+      {products.length === 0 && (
+        <Text fontSize={15} fontWeight={"bold"} mb={4} textAlign={"center"}>
         No Products Found. 
-        <RouterLink to={"/create"}> <Text color="teal.500" ml={2}> Add New Product </Text></RouterLink>
+        <RouterLink to={"/create"}> <Text as="span" color="teal.500" ml={2}> Add New Product </Text></RouterLink>
       </Text>
+      )}
+      
+      
     </Container>
   )
 }

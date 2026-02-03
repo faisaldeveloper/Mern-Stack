@@ -29,11 +29,11 @@ export const createProduct = async (req, res) => {
 };
 
 export const updateProduct = async (req, res) => {
-	const { productId } = req.params;
+	const { id } = req.params;
 	const updates = req.body;
 
 	try {
-		const updatedProduct = await Product.findByIdAndUpdate(productId, updates, { new: true });
+		const updatedProduct = await Product.findByIdAndUpdate(id, updates, { new: true });
 		if (!updatedProduct) {
 			return res.status(404).json({ success: false, message: 'Product not found' });
 		}

@@ -3,6 +3,22 @@ import {create } from "zustand"
 export const useProductStore = create((set) => ({
   products: [],
   setProducts: (products) => set({ products }),
+
+  //Fetch Products
+  fetchProducts: async () => {
+    try {
+      const response = await fetch("/api/products")
+      const data = await response.json()
+      if (!response.ok) {
+        throw new Error(data.message || "Failed to fetch products")
+      }
+      set({ products: data.data })
+    } catch (error) {
+      console.error("Error fetching products:", error)
+    }
+  },
+
+  //Add New Product
   addProduct: async (newProduct) =>{
     if(!newProduct.name || !newProduct.description || !newProduct.price || !newProduct.image){
         return {success: false, message: "Please complete all Product fields"}      
@@ -30,18 +46,33 @@ export const useProductStore = create((set) => ({
       return { success: false, message: "Network error: " + error.message };
    }
 
-    },
-  //Fetch Products
-  fetchProducts: async () => {
+  },  
+
+  //Update Product
+  updateProduct: async (id, updatedProduct) => {
     try {
-      const response = await fetch("/api/products")
-      const data = await response.json()
+      const response = await fetch(`/api/products/${id}`, {
+        method: "PUT",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(updatedProduct),
+      }); 
+      
+      const data = await response.json();
+
       if (!response.ok) {
-        throw new Error(data.message || "Failed to fetch products")
-      }
-      set({ products: data.data })
+        return {success : false, message: data.message || "Failed to update product"};
+      } 
+
+      set((state) => ({
+        products: state.products.map((product) =>
+          product._id === id ? data.data : product
+        ),
+      }));
+      return {success : true, message: data.message || "Product updated successfully"};
     } catch (error) {
-      console.error("Error fetching products:", error)
+      console.error("Error updating product:", error);
     }
   },
 

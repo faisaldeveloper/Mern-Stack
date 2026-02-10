@@ -5,7 +5,7 @@ import { useColorMode, useColorModeValue } from "@/components/ui/color-mode"
 import { HStack, Button } from '@chakra-ui/react'
 import { IoMoon } from 'react-icons/io5'
 import { LuSun } from 'react-icons/lu'
-import { HiPlus } from 'react-icons/hi'; // Heroicons version
+import { HiPlus, HiLogin, HiUserAdd } from 'react-icons/hi'; // Heroicons version
 
 const Navbar = () => {
   const { colorMode, toggleColorMode } = useColorMode()
@@ -27,6 +27,16 @@ const Navbar = () => {
       </Text> 
 
       <HStack spacing={2} alignItems={"center"}>
+					<RouterLink to={"/login"}>
+						<Button>
+							<HiLogin fontSize={20} color="lightgreen" />
+						</Button>
+					</RouterLink>
+					<RouterLink to={"/register"}>
+						<Button>
+							<HiUserAdd fontSize={20} color="cyan" />
+						</Button>
+					</RouterLink>
 					<RouterLink to={"/create"}>
 						<Button>
 							<HiPlus fontSize={20} color="yellow" />

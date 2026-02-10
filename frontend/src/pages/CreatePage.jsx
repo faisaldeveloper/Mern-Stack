@@ -40,7 +40,6 @@ const CreatePage = () => {
       <VStack spacing={8} >
 
       <Heading as={"h1"} size={"2xl"} textAlign="center" mb={8}>Create New Product</Heading>
-      <h1>Create New Product</h1>
       <Box w={"full"} p={6} borderWidth={1} bg={useColorModeValue("white", "gray.800")} borderRadius="md" boxShadow="md">
 
         <VStack spacing={4}>

@@ -1,9 +1,16 @@
 import { create } from 'zustand';
 
 export const useUserStore = create((set) => ({
-  user: null,
-  setUser: (user) => set({ user }),
-  logout: () => set({ user: null }),
+isAuthenticated: false,
+user: null,
+setUser: (user) => set({ user }),
+// login: (user, token) =>
+//   set({
+//     user,
+//     token,
+//     isAuthenticated: true,
+//   }),  
+  logout: () => set({ user: null, token: null, isAuthenticated: false }),
 
     //Login User    
     loginUser: async (credentials) => {
@@ -22,7 +29,7 @@ export const useUserStore = create((set) => ({
         return { success: false, message: data.message || "Login failed" };
       }
 
-      set({ user: data.user });
+      set({ user: data.user, token: data.token, isAuthenticated: true });
       localStorage.setItem("token", data.token);
       return { success: true, message: "Login successful" };
     } catch (error) {

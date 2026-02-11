@@ -2,6 +2,8 @@ import { useState } from "react";
 import  {useUserStore}  from "@/store/user";
 import { Box, Container, Heading, VStack, Input, Button } from "@chakra-ui/react"
 import { useColorModeValue } from "@/components/ui/color-mode"
+import { useNavigate } from "react-router-dom";
+
 
 const LoginPage = () => {
   const [formData, setFormData] = useState({
@@ -9,6 +11,7 @@ const LoginPage = () => {
     password: "",
   });
 
+  const navigate = useNavigate();
   const [error, setError] = useState("");
   const loginUser = useUserStore((state) => state.loginUser);
 
@@ -27,8 +30,10 @@ const LoginPage = () => {
        return;
      }
 
-     localStorage.setItem("token", data.token);
-     alert("Login successful!");
+     //localStorage.setItem("token", data.token);
+     //alert("Login successful!");
+     loginUser(data.user, data.token);
+     navigate("/");
   };
 
   return (

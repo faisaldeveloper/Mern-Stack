@@ -6,6 +6,7 @@ import CreatePage from "./pages/CreatePage"
 import LoginPage from "./pages/LoginPage"
 import RegisterPage from "./pages/RegisterPage"
 import { useColorModeValue } from "@/components/ui/color-mode"
+import ProtectedRoute from "@/components/ProtectedRoute"
 
 function App() {
  
@@ -15,7 +16,7 @@ function App() {
       <Navbar />
       <Routes>
         <Route path="/" element={<HomePage />} />
-        <Route path="/create" element={<CreatePage />} />
+        <Route path="/create" element={<ProtectedRoute><CreatePage /></ProtectedRoute>} />
         <Route path="/login" element={<LoginPage />} />
         <Route path="/register" element={<RegisterPage />} />
       </Routes>

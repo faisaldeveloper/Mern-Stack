@@ -38,7 +38,7 @@ const LoginPage = () => {
 
   return (
     <Container maxW="container.sm" py={4}>
-      <VStack spacing={8} >
+      <VStack spacing={8} w="600px" wrap="wrap" mx="auto" mb={10}>
 
       <Heading as={"h1"} size={"2xl"} textAlign="center" mb={8}>User Login</Heading>           
             <Box w={"full"} p={6} borderWidth={1} bg={useColorModeValue("white", "gray.800")} borderRadius="md" boxShadow="md">      
@@ -64,7 +64,7 @@ const LoginPage = () => {
           required
         />
      
-         <Button colorScheme="blue" width="sm" mt={4} onClick={handleLoginFormSubmit}>Login</Button>    
+         <Button colorScheme="blue" rounded="lg" size="md" mt={4} onClick={handleLoginFormSubmit}>Login</Button>    
       </VStack>
     </Box>      
           </VStack>

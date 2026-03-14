@@ -1,4 +1,5 @@
 import Product from '../models/product.model.js';
+import { productSchema } from '../validators/product.validator.js';
 
 export const getProducts = async (req, res) => {
 	try {
@@ -12,11 +13,12 @@ export const getProducts = async (req, res) => {
 
 export const createProduct = async (req, res) => {
 	const product = req.body;
-		
-	if(!product.name || !product.price || !product.description || !product.image){ 
-		return res.status(400).json({ success: false, message: 'All fields are required' });	
-	}
 
+	const result = productSchema.safeParse(req.body);
+	if (!result.success) {
+		return res.status(400).json({ success: false, message: result.error.issues[0].message });
+	}
+	
 	const newProduct = new Product(product);
 	try {
 		await newProduct.save();
@@ -30,6 +32,11 @@ export const createProduct = async (req, res) => {
 export const updateProduct = async (req, res) => {
 	const { id } = req.params;
 	const updates = req.body;
+
+	const result = productSchema.safeParse(req.body);
+	if (!result.success) {
+		return res.status(400).json({ success: false, message: result.error.issues[0].message });
+	}
 
 	try {
 		const updatedProduct = await Product.findByIdAndUpdate(id, updates, { new: true });

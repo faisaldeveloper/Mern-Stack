@@ -38,7 +38,7 @@ const RegisterPage = () => {
 
   return (
     <Container maxW="container.sm" py={4}>
-      <VStack spacing={8} >
+      <VStack spacing={8} w="600px" mx="auto" mb={10} >
 
       <Heading as={"h1"} size={"2xl"} textAlign="center" mb={8}>Register</Heading>           
             <Box w={"full"} p={6} borderWidth={1} bg={useColorModeValue("white", "gray.800")} borderRadius="md" boxShadow="md">      

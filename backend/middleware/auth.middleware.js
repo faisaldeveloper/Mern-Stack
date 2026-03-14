@@ -17,9 +17,10 @@ export const protect = async (req, res, next) => {
       next();
 
     } catch (error) {
-      res.status(401).json({ success: false, message: "Not authorized" });
+      console.error("JWT Error:", error.message);
+      return res.status(401).json({ success: false, message: "Token invalid or expired" });
     }
   } else {
-    res.status(401).json({ success: false, message: "No token provided" });
+    return res.status(401).json({ success: false, message: "No token provided" });
   }
 };

@@ -20,16 +20,12 @@ export const useProductStore = create((set) => ({
 
   //Add New Product
   addProduct: async (newProduct) =>{
-    if(!newProduct.name || !newProduct.description || !newProduct.price || !newProduct.image){
-        return {success: false, message: "Please complete all Product fields"}      
-    }   
-
     try {
-
     const response = await fetch("/api/products", {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
+        Authorization: `Bearer ${localStorage.getItem("token")}`,
       },
       body: JSON.stringify(newProduct),
     })
@@ -50,11 +46,13 @@ export const useProductStore = create((set) => ({
 
   //Update Product
   updateProduct: async (id, updatedProduct) => {
-    try {
+    try {      
       const response = await fetch(`/api/products/${id}`, {
         method: "PUT",
         headers: {
           "Content-Type": "application/json",
+          Authorization: `Bearer ${localStorage.getItem("token")}`,
+
         },
         body: JSON.stringify(updatedProduct),
       }); 
@@ -81,6 +79,11 @@ export const useProductStore = create((set) => ({
     try {
       const response = await fetch(`/api/products/${id}`, {
         method: "DELETE",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${localStorage.getItem("token")}`,
+
+        },
       });
       const data = await response.json();
       if (!response.ok) {

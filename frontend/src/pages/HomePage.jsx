@@ -13,9 +13,6 @@ const HomePage = () => {
     fetchProducts();
   }, [fetchProducts]);
 
-  //console.log("products", products);
-
-
   return (
     <Container maxW={Container.xl} py={4}>
       <Box textAlign="center" spacing={6}>
@@ -35,8 +32,7 @@ const HomePage = () => {
         No Products Found. 
         <RouterLink to={"/create"}> <Text as="span" color="teal.500" ml={2}> Add New Product </Text></RouterLink>
       </Text>
-      )}
-      
+      )}      
       
     </Container>
   )

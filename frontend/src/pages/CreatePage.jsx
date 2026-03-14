@@ -14,6 +14,8 @@ const CreatePage = () => {
     image: ""
   });
 
+  const [error, setError] = useState("");
+  const [success, setSuccess] = useState("");
   const {addProduct} = useProductStore();
 
   const handleNewProduct = async() => {
@@ -21,17 +23,15 @@ const CreatePage = () => {
    //console.log("New Product Created:", newProduct);
     const {success, message} = await addProduct(newProduct);
     if(success){      
+      setSuccess(message);
+      setError("");
       console.log("msg:", message);
+      // Reset form
+      setNewProduct({name: "", description: "", price: 0, image: ""});
     }else{
-      console.log("Product Creation Failed::: ", message);
-    }
-    // Reset form
-    setNewProduct({
-      name: "",
-      description: "",
-      price: 0,
-      image: ""
-    });
+      setError(message);
+      setSuccess("");
+    }    
   }
 
 
@@ -42,6 +42,9 @@ const CreatePage = () => {
       <Heading as={"h1"} size={"2xl"} textAlign="center" mb={8}>Create New Product</Heading>
       <Box w={"full"} p={6} borderWidth={1} bg={useColorModeValue("white", "gray.800")} borderRadius="md" boxShadow="md">
 
+        {error && <p style={{ color: "red" }}>{error}</p>}
+        {success && <p style={{ color: "green" }}>{success}</p>}
+
         <VStack spacing={4}>
           <Input
             type="text"
@@ -49,6 +52,7 @@ const CreatePage = () => {
             placeholder="Product Name"
             value={newProduct.name}
             onChange={(e) => setNewProduct({ ...newProduct, name: e.target.value })}
+            required
           />
           <Input
             type="text"
@@ -56,6 +60,7 @@ const CreatePage = () => {
             placeholder="Description"
             value={newProduct.description}
             onChange={(e) => setNewProduct({ ...newProduct, description: e.target.value })}
+            required
           />
           <Input
             type="number"
@@ -63,6 +68,7 @@ const CreatePage = () => {
             placeholder="Price"
             value={newProduct.price}
             onChange={(e) => setNewProduct({ ...newProduct, price: e.target.value })}
+            required
           />
           <Input
             type="text"

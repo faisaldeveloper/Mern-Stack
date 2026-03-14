@@ -6,11 +6,16 @@ import { useState } from 'react';
 import { useColorModeValue } from '@/components/ui/color-mode';
 import { useProductStore}  from "@/store/product";
 import { Button, Dialog, Portal } from "@chakra-ui/react"
+import  {useUserStore}  from "@/store/user";
 
 
 const ProductCard = ({product}) => {
     //alert("product card rendered");
     const bgColor = useColorModeValue("white", "gray.800"); 
+
+     const { user, isAuthenticated } = useUserStore();
+     const [error, setError] = useState("");
+     const [success, setSuccess] = useState("");
 
     const {updateProduct, deleteProduct} = useProductStore();
     const [updatedProduct, setUpdatedProduct] = useState(product);
@@ -18,8 +23,12 @@ const ProductCard = ({product}) => {
     const handleUpdatedProduct = async () => {
         const {success, message} = await updateProduct(product._id, updatedProduct);
         if(success){
+            setSuccess(message);
+            setError("");
             console.log("msg:", message);
         }else{
+            setError(message);
+            setSuccess("");
             console.log("Product Update Failed::: ", message);
         }
     }
@@ -53,10 +62,11 @@ const ProductCard = ({product}) => {
                 <Dialog.Root size="md" motionPreset="slide-in-bottom">
   {/* The Trigger makes the button open the dialog automatically */}
   <Dialog.Trigger asChild>
-
+{isAuthenticated && ( 
     <IconButton aria-label="Edit Product" variant="outline" colorScheme="blue" size="sm" >
                     <LuPencil />
                 </IconButton> 
+  )}
   </Dialog.Trigger>
   <Portal>
     <Dialog.Backdrop />
@@ -68,6 +78,8 @@ const ProductCard = ({product}) => {
         <Dialog.Body>
           
 <Box w={"full"} p={6} borderWidth={1} bg={useColorModeValue("white", "gray.800")} borderRadius="md" boxShadow="md">
+        {error && <p style={{ color: "red" }}>{error}</p>}
+        {success && <p style={{ color: "green" }}>{success}</p>}
 
         <VStack spacing={4}>
           <Input
@@ -114,10 +126,11 @@ const ProductCard = ({product}) => {
     </Dialog.Positioner>
   </Portal>
 </Dialog.Root>
-                               
+                {isAuthenticated && (                
                 <IconButton aria-label="Delete Product" variant="outline" colorScheme="red" size="sm" onClick={handleDeleteProduct}> 
                     <LuTrash2 />
                 </IconButton>     
+                )}
             </HStack>
             </Box>          
             

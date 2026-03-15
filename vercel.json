@@ -1,0 +1,8 @@
+{
+  "public": true,
+  "rewrites": [
+    { "source": "/api/(.*)", "destination": "/backend/server.js" },
+    { "source": "/(.*)", "destination": "/frontend/dist/index.html" }
+  ],
+  "outputDirectory": "frontend/dist"
+}

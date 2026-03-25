@@ -11,16 +11,14 @@
       "config": { "distDir": "dist" }
     }
   ],
-  "public": true,
-  "rewrites": [
+  "routes": [
     {
-      "source": "/api/(.*)",
-      "destination": "backend/server.js"
+      "src": "^/api/(.*)",
+      "dest": "/backend/server.js"
     },
     {
-      "source": "/(.*)",
-      "destination": "frontend/dist/index.html"
+      "src": "^(?!/api)(.*)",
+      "dest": "/frontend/dist/index.html"
     }
-  ],
-  "outputDirectory": "frontend/dist"
+  ]
 }

@@ -9,6 +9,8 @@ import authRoutes from './routes/auth.route.js';
 
 dotenv.config();
 
+console.log("SERVER FILE LOADED");
+
 const app = express();
 const __dirname = path.resolve();
 

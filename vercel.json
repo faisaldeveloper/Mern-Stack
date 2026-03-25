@@ -1,20 +1,23 @@
 {
-  "rewrites": [
+  "routes": [
     {
-      "source": "/products",
-      "destination": "/api/products"
+      "src": "^/products$",
+      "dest": "/backend/server.js"
     },
     {
-      "source": "/auth/(.*)",
-      "destination": "/api/auth/$1"
+      "src": "^/products/(.*)",
+      "dest": "/backend/server.js"
     },
     {
-      "source": "/api/(.*)",
-      "destination": "/backend/server.js"
+      "src": "^/api/(.*)",
+      "dest": "/backend/server.js"
     },
     {
-      "source": "/((?!api|products|auth).*)",
-      "destination": "/frontend/dist/index.html"
+      "handle": "filesystem"
+    },
+    {
+      "src": "^(.*)",
+      "dest": "/frontend/dist/index.html"
     }
   ]
 }

@@ -18,8 +18,8 @@ const __dirname = path.resolve();
 app.use(express.json());
 
 // API Routes
-app.use("/api/auth", authRoutes);
-app.use("/api/products", productRoutes);
+app.use("/auth", authRoutes);
+app.use("/products", productRoutes);
 
 // Connect DB (IMPORTANT: do this outside listen)
 connectDB();

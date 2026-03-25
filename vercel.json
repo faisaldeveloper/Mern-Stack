@@ -1,11 +1,19 @@
 {
   "rewrites": [
     {
+      "source": "/products",
+      "destination": "/api/products"
+    },
+    {
+      "source": "/auth/(.*)",
+      "destination": "/api/auth/$1"
+    },
+    {
       "source": "/api/(.*)",
       "destination": "/backend/server.js"
     },
     {
-      "source": "/((?!api).*)",
+      "source": "/((?!api|products|auth).*)",
       "destination": "/frontend/dist/index.html"
     }
   ]

@@ -7,20 +7,25 @@ import LoginPage from "./pages/LoginPage"
 import RegisterPage from "./pages/RegisterPage"
 import { useColorModeValue } from "@/components/ui/color-mode"
 import ProtectedRoute from "@/components/ProtectedRoute"
+import { useEffect } from "react";
+import { useUserStore } from "@/store/user";
 
 function App() {
- 
+  const checkAuth = useUserStore((state) => state.checkAuth);
+  useEffect(() => {
+    checkAuth();
+  }, [checkAuth]);
   return (
     <>
-    <Box minH="100vh" px={4} bg={useColorModeValue("gray.100", "gray.900") }>
-      <Navbar />
-      <Routes>
-        <Route path="/" element={<HomePage />} />
-        <Route path="/create" element={<ProtectedRoute><CreatePage /></ProtectedRoute>} />
-        <Route path="/login" element={<LoginPage />} />
-        <Route path="/register" element={<RegisterPage />} />
-      </Routes>
-    </Box>
+      <Box minH="100vh" px={4} bg={useColorModeValue("gray.100", "gray.900") }>
+        <Navbar />
+        <Routes>
+          <Route path="/" element={<HomePage />} />
+          <Route path="/create" element={<ProtectedRoute><CreatePage /></ProtectedRoute>} />
+          <Route path="/login" element={<LoginPage />} />
+          <Route path="/register" element={<RegisterPage />} />
+        </Routes>
+      </Box>
     </>
   )
 }

@@ -1,6 +1,6 @@
 import { Box, Text, Heading, Image } from '@chakra-ui/react'
-import { Spacer, IconButton, HStack, VStack, Input } from '@chakra-ui/react'
-import { LuPencil, LuTrash2 } from "react-icons/lu";
+import { Spacer, IconButton, HStack, VStack, Input, Textarea } from '@chakra-ui/react'
+import { LuPencil, LuTrash2, LuEye, LuX } from "react-icons/lu";
 import React from 'react'
 import { useState } from 'react';
 import { useColorModeValue } from '@/components/ui/color-mode';
@@ -10,6 +10,10 @@ import  {useUserStore}  from "@/store/user";
 
 
 const ProductCard = ({product}) => {
+      // State for view dialog
+      const [isViewOpen, setIsViewOpen] = useState(false);
+      const openViewDialog = () => setIsViewOpen(true);
+      const closeViewDialog = () => setIsViewOpen(false);
     //alert("product card rendered");
     const bgColor = useColorModeValue("white", "gray.800"); 
 
@@ -54,78 +58,115 @@ const ProductCard = ({product}) => {
               <Box d="flex" alignItems="baseline">
                 <Heading fontWeight="bold" fontSize="xl" mb={2}>{product.name}</Heading>
               </Box>
-              <Text mb={2}>{product.description}</Text>          
+              <Text mb={2} noOfLines={2}>{product.description?.slice(0, 40)}{product.description?.length > 40 ? '...' : ''}</Text>          
 
             <HStack spacing={2} mt={4} d="flex">     
                 <Text fontSize="lg" color="teal.600" fontWeight="bold">${product.price}</Text>
                 <Spacer />
+                {/* View Product Dialog */}
+                <Dialog.Root open={isViewOpen} onOpenChange={setIsViewOpen}>
+                  <Dialog.Trigger asChild>
+                    <IconButton
+                      aria-label="View Product"
+                      variant="outline"
+                      colorScheme="green"
+                      size="sm"                      
+                      onClick={openViewDialog}
+                    ><LuEye /> </IconButton>
+                  </Dialog.Trigger>
+                  <Portal>
+                    <Dialog.Backdrop />
+                    <Dialog.Positioner>
+                      <Dialog.Content>
+                        <Dialog.Header>
+                          <Dialog.Title>Product Details</Dialog.Title>
+                        </Dialog.Header>
+                        {/* X button to close */}
+                        <IconButton
+                          aria-label="Close"
+                          size="sm"
+                          icon={<span style={{fontWeight:'bold'}}>×</span>}
+                          onClick={closeViewDialog}
+                          position="absolute"
+                          top="8px"
+                          right="8px"
+                          variant="ghost"
+                        ><LuX /> </IconButton>
+                        <Dialog.Body>
+                          <Box w={"full"} p={4}>
+                            <Image src={product.image} alt={product.name} w='full' h={48} objectFit='cover' mb={3} />
+                            <Heading fontSize="xl" mb={2}>{product.name}</Heading>
+                            <Text mb={2} whiteSpace="pre-wrap">{product.description}</Text>
+                            <Text fontWeight="bold" color="teal.600">${product.price}</Text>
+                          </Box>
+                        </Dialog.Body>
+                      </Dialog.Content>
+                    </Dialog.Positioner>
+                  </Portal>
+                </Dialog.Root>
+
+                {/* Existing Edit Dialog (unchanged) */}
                 <Dialog.Root size="md" motionPreset="slide-in-bottom">
-  {/* The Trigger makes the button open the dialog automatically */}
-  <Dialog.Trigger asChild>
-{isAuthenticated && ( 
-    <IconButton aria-label="Edit Product" variant="outline" colorScheme="blue" size="sm" >
-                    <LuPencil />
-                </IconButton> 
-  )}
-  </Dialog.Trigger>
-  <Portal>
-    <Dialog.Backdrop />
-    <Dialog.Positioner>
-      <Dialog.Content>
-        <Dialog.Header>
-          <Dialog.Title>Edit Product</Dialog.Title>
-        </Dialog.Header>
-        <Dialog.Body>
-          
-<Box w={"full"} p={6} borderWidth={1} bg={useColorModeValue("white", "gray.800")} borderRadius="md" boxShadow="md">
-        {error && <p style={{ color: "red" }}>{error}</p>}
-        {success && <p style={{ color: "green" }}>{success}</p>}
-
-        <VStack spacing={4}>
-          <Input
-            type="text"
-            name="name"
-            placeholder="Product Name"
-            value={updatedProduct.name}
-            onChange={(e) => setUpdatedProduct({ ...updatedProduct, name: e.target.value })}
-          />
-          <Input
-            type="text"
-            name="description"
-            placeholder="Description"
-            value={updatedProduct.description}
-            onChange={(e) => setUpdatedProduct({ ...updatedProduct, description: e.target.value })}
-          />
-          <Input
-            type="number"
-            name="price"
-            placeholder="Price"
-            value={updatedProduct.price}
-            onChange={(e) => setUpdatedProduct({ ...updatedProduct, price: e.target.value })}
-          />
-          <Input
-            type="text"
-            name="image"
-            placeholder="Image URL"
-            value={updatedProduct.image}
-            onChange={(e) => setUpdatedProduct({ ...updatedProduct, image: e.target.value })}
-          />
-          
-        </VStack>
-      </Box>      
-
-
-        </Dialog.Body>
-        <Dialog.Footer>
-          <Dialog.ActionTrigger asChild>
-            <Button variant="outline">Cancel</Button>
-          </Dialog.ActionTrigger>
-          <Button colorScheme="blue" mt={1} onClick={handleUpdatedProduct}>Update Product</Button>
-        </Dialog.Footer>
-      </Dialog.Content>
-    </Dialog.Positioner>
-  </Portal>
-</Dialog.Root>
+                  <Dialog.Trigger asChild>
+                    {isAuthenticated && (
+                      <IconButton aria-label="Edit Product" variant="outline" colorScheme="blue" size="sm" >
+                        <LuPencil />
+                      </IconButton>
+                    )}
+                  </Dialog.Trigger>
+                  <Portal>
+                    <Dialog.Backdrop />
+                    <Dialog.Positioner>
+                      <Dialog.Content>
+                        <Dialog.Header>
+                          <Dialog.Title>Edit Product</Dialog.Title>
+                        </Dialog.Header>
+                        <Dialog.Body>
+                          <Box w={"full"} p={6} borderWidth={1} bg={useColorModeValue("white", "gray.800")} borderRadius="md" boxShadow="md">
+                            {error && <p style={{ color: "red" }}>{error}</p>}
+                            {success && <p style={{ color: "green" }}>{success}</p>}
+                            <VStack spacing={4}>
+                              <Input
+                                type="text"
+                                name="name"
+                                placeholder="Product Name"
+                                value={updatedProduct.name}
+                                onChange={(e) => setUpdatedProduct({ ...updatedProduct, name: e.target.value })}
+                              />
+                              <Textarea
+                                name="description"
+                                placeholder="Description"
+                                value={updatedProduct.description}
+                                onChange={(e) => setUpdatedProduct({ ...updatedProduct, description: e.target.value })}
+                                rows={4}
+                              />
+                              <Input
+                                type="number"
+                                name="price"
+                                placeholder="Price"
+                                value={updatedProduct.price}
+                                onChange={(e) => setUpdatedProduct({ ...updatedProduct, price: e.target.value })}
+                              />
+                              <Input
+                                type="text"
+                                name="image"
+                                placeholder="Image URL"
+                                value={updatedProduct.image}
+                                onChange={(e) => setUpdatedProduct({ ...updatedProduct, image: e.target.value })}
+                              />
+                            </VStack>
+                          </Box>
+                        </Dialog.Body>
+                        <Dialog.Footer>
+                          <Dialog.ActionTrigger asChild>
+                            <Button variant="outline">Cancel</Button>
+                          </Dialog.ActionTrigger>
+                          <Button colorScheme="blue" mt={1} onClick={handleUpdatedProduct}>Update Product</Button>
+                        </Dialog.Footer>
+                      </Dialog.Content>
+                    </Dialog.Positioner>
+                  </Portal>
+                </Dialog.Root>
                 {isAuthenticated && (                
                 <IconButton aria-label="Delete Product" variant="outline" colorScheme="red" size="sm" onClick={handleDeleteProduct}> 
                     <LuTrash2 />

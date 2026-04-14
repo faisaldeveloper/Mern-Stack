@@ -1,6 +1,6 @@
 import React from 'react'
 import { useState } from 'react';
-import { Box, Container, Heading, VStack, Input, Button } from "@chakra-ui/react"
+import { Box, Container, Heading, VStack, Input, Textarea, Button } from "@chakra-ui/react"
 import { useColorModeValue } from "@/components/ui/color-mode"
 import  {useProductStore}  from "@/store/product";
 
@@ -54,12 +54,12 @@ const CreatePage = () => {
             onChange={(e) => setNewProduct({ ...newProduct, name: e.target.value })}
             required
           />
-          <Input
-            type="text"
+          <Textarea
             name="description"
             placeholder="Description"
             value={newProduct.description}
             onChange={(e) => setNewProduct({ ...newProduct, description: e.target.value })}
+            rows={4}
             required
           />
           <Input

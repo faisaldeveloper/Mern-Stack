@@ -32,7 +32,7 @@ const Navbar = () => {
 					bgGradient={"linear(to-r, cyan.400, blue.500)"}
 					bgClip={"text"}
       >
-		 <Link as={RouterLink} style={{ textDecoration: 'none' }}  to={"/"}>Product Store 🛒</Link>
+		 <Link as={RouterLink} style={{ textDecoration: 'none' }}  to={"/"}>PrimeCart 🛒</Link>
       	 
       </Text> 
 

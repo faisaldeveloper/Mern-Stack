@@ -32,7 +32,7 @@ const HomePage = () => {
           fontWeight="bold"
           color="blue.500"
         >
-          Product List
+          Products
         </Text>
 
         {/* Right: Pagination */}

@@ -9,6 +9,7 @@ import { useColorModeValue } from "@/components/ui/color-mode"
 import ProtectedRoute from "@/components/ProtectedRoute"
 import { useEffect } from "react";
 import { useUserStore } from "@/store/user";
+import Footer from "./components/Footer";
 
 function App() {
   const checkAuth = useUserStore((state) => state.checkAuth);
@@ -25,6 +26,7 @@ function App() {
           <Route path="/login" element={<LoginPage />} />
           <Route path="/register" element={<RegisterPage />} />
         </Routes>
+        <Footer />
       </Box>
     </>
   )

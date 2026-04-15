@@ -52,7 +52,7 @@ const ProductCard = ({product}) => {
     }
 
   return (
-    <Box borderWidth="1px" spacing={7} transition="all 0.3s" overflow="hidden" borderRadius="lg" mx={2} p={4} boxShadow="md" bg={bgColor} _hover={{ transform: "transformY(-15px)", shadow: "xl" }}>
+    <Box borderWidth="1px" spacing={7} mt={15} transition="all 0.3s" overflow="hidden" borderRadius="lg" mx={2} p={4} boxShadow="md" bg={bgColor} _hover={{ transform: "transformY(-15px)", shadow: "xl" }}>
         <Image src={product.image} alt={product.name} w='full' h={48} objectFit='cover' />
             <Box p="6">
               <Box d="flex" alignItems="baseline">

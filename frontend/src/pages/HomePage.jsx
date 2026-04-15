@@ -24,17 +24,24 @@ const HomePage = () => {
   };
 
   return (
-    <Container maxW={Container.xl} py={4}>
-      <Box textAlign="center" spacing={6}>
-        <Text fontSize={25} fontWeight={"bold"} mb={4} textAlign={"center"} color={"blue.500"}>
+    <Container maxW={Container.xl} py={0}>
+      <Flex align="center" justify="space-between" px="15px">
+        {/* Left: Title */}
+        <Text
+          fontSize="25px"
+          fontWeight="bold"
+          color="blue.500"
+        >
           Product List
         </Text>
+
+        {/* Right: Pagination */}
         {products.length > 0 && (
-          <Text fontSize={14} fontWeight={"bold"} color="gray.600">
+          <Text fontSize="14px" fontWeight="bold" color="gray.600" mt="10px" px="15px">
             Showing {startNumber}–{endNumber} of {products.length}
           </Text>
         )}
-      </Box>
+      </Flex>
 
       <SimpleGrid columns={{ base: 1, md: 2, lg: 3 }} spacing={4} mb={4}>
         {currentProducts.length > 0 && currentProducts.map((product) => (

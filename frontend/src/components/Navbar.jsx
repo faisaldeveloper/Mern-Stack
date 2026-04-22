@@ -59,6 +59,12 @@ const Navbar = () => {
 							Hello, {user?.name}
 						</Text>
 
+						<RouterLink to={"/my-products"}>
+							<Button size="sm" colorScheme="teal">
+								My Products
+							</Button>
+						</RouterLink>
+
 						<Button size="sm" colorScheme="red" onClick={handleLogout}>
 							Logout
 						</Button>

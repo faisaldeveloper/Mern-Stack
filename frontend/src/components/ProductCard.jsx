@@ -9,7 +9,7 @@ import { Button, Dialog, Portal } from "@chakra-ui/react"
 import  {useUserStore}  from "@/store/user";
 
 
-const ProductCard = ({product}) => {
+const ProductCard = ({product, showActions = false}) => {
       // State for view dialog
       const [isViewOpen, setIsViewOpen] = useState(false);
       const openViewDialog = () => setIsViewOpen(true);
@@ -108,7 +108,7 @@ const ProductCard = ({product}) => {
                 {/* Existing Edit Dialog (unchanged) */}
                 <Dialog.Root size="md" motionPreset="slide-in-bottom">
                   <Dialog.Trigger asChild>
-                    {isAuthenticated && (
+                    {showActions && isAuthenticated && (
                       <IconButton aria-label="Edit Product" variant="outline" colorScheme="blue" size="sm" >
                         <LuPencil />
                       </IconButton>
@@ -167,7 +167,7 @@ const ProductCard = ({product}) => {
                     </Dialog.Positioner>
                   </Portal>
                 </Dialog.Root>
-                {isAuthenticated && (                
+                {showActions && isAuthenticated && (                
                 <IconButton aria-label="Delete Product" variant="outline" colorScheme="red" size="sm" onClick={handleDeleteProduct}> 
                     <LuTrash2 />
                 </IconButton>     

@@ -2,7 +2,9 @@ import {create } from "zustand"
 
 export const useProductStore = create((set) => ({
   products: [],
+  userProducts: [],
   setProducts: (products) => set({ products }),
+  setUserProducts: (userProducts) => set({ userProducts }),
 
   //Fetch Products
   fetchProducts: async () => {
@@ -15,6 +17,24 @@ export const useProductStore = create((set) => ({
       set({ products: data.data })
     } catch (error) {
       console.error("Error fetching products:", error)
+    }
+  },
+
+  //Fetch User Products
+  fetchUserProducts: async () => {
+    try {
+      const response = await fetch("/api/products/user", {
+        headers: {
+          Authorization: `Bearer ${localStorage.getItem("token")}`,
+        },
+      })
+      const data = await response.json()
+      if (!response.ok) {
+        throw new Error(data.message || "Failed to fetch user products")
+      }
+      set({ userProducts: data.data })
+    } catch (error) {
+      console.error("Error fetching user products:", error)
     }
   },
 
@@ -36,7 +56,10 @@ export const useProductStore = create((set) => ({
         return { success: false, message: data.message || "Server error" };
     }
     
-    set((state) => ({ products: [...state.products, data.data ] }));
+    set((state) => ({ 
+      products: [...state.products, data.data],
+      userProducts: [...state.userProducts, data.data]
+    }));
     return {success: true, message: "Product created successfully"};    
    } catch (error) {
       return { success: false, message: "Network error: " + error.message };
@@ -67,6 +90,9 @@ export const useProductStore = create((set) => ({
         products: state.products.map((product) =>
           product._id === id ? data.data : product
         ),
+        userProducts: state.userProducts.map((product) =>
+          product._id === id ? data.data : product
+        ),
       }));
       return {success : true, message: data.message || "Product updated successfully"};
     } catch (error) {
@@ -90,7 +116,10 @@ export const useProductStore = create((set) => ({
         return {success : false, message: data.message || "Failed to delete product"};
         // throw new Error(data.message || "Failed to delete product");
       }
-      set((state) => ({ products: state.products.filter((product) => product._id !== id) }));
+      set((state) => ({ 
+        products: state.products.filter((product) => product._id !== id),
+        userProducts: state.userProducts.filter((product) => product._id !== id)
+      }));
       return {success : true, message: data.message || "Product deleted successfully"};
     } catch (error) {
       console.error("Error deleting product:", error);

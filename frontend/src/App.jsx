@@ -2,6 +2,7 @@ import { Box } from "@chakra-ui/react"
 import { Route, Routes } from "react-router-dom"
 import Navbar from "./components/Navbar"
 import HomePage from "./pages/HomePage"
+import MyProductsPage from "./pages/MyProductsPage"
 import CreatePage from "./pages/CreatePage"
 import LoginPage from "./pages/LoginPage"
 import RegisterPage from "./pages/RegisterPage"
@@ -22,6 +23,7 @@ function App() {
         <Navbar />
         <Routes>
           <Route path="/" element={<HomePage />} />
+          <Route path="/my-products" element={<ProtectedRoute><MyProductsPage /></ProtectedRoute>} />
           <Route path="/create" element={<ProtectedRoute><CreatePage /></ProtectedRoute>} />
           <Route path="/login" element={<LoginPage />} />
           <Route path="/register" element={<RegisterPage />} />

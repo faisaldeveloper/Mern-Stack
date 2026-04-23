@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import  {useUserStore}  from "@/store/user";
 import { Box, Container, Heading, VStack, Input, Button } from "@chakra-ui/react"
 import { useColorModeValue } from "@/components/ui/color-mode"
@@ -6,12 +6,20 @@ import { useNavigate } from "react-router-dom";
 
 
 const LoginPage = () => {
+  const navigate = useNavigate();
+  const { isAuthenticated } = useUserStore();
+
+  useEffect(() => {
+    if (isAuthenticated) {
+      navigate("/");
+    }
+  }, [isAuthenticated, navigate]);
+
   const [formData, setFormData] = useState({
     email: "",
     password: "",
   });
 
-  const navigate = useNavigate();
   const [error, setError] = useState("");
   const loginUser = useUserStore((state) => state.loginUser);
 
@@ -40,7 +48,7 @@ const LoginPage = () => {
     <Container maxW="container.sm" py={4}>
       <VStack spacing={8} w="600px" wrap="wrap" mx="auto" mb={10}>
 
-      <Heading as={"h1"} size={"2xl"} textAlign="center" mb={8}>User Login</Heading>           
+      <Heading as={"h1"} color="blue.500" size={"xl"} textAlign="center" mb={8}>User Login</Heading>           
             <Box w={"full"} p={6} borderWidth={1} bg={useColorModeValue("white", "gray.800")} borderRadius="md" boxShadow="md">      
 
       {error && <p style={{ color: "red" }}>{error}</p>}

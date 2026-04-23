@@ -40,7 +40,7 @@ const ProductCard = ({product, showActions = false}) => {
     //const { deleteProduct} = useProductStore();
     const handleDeleteProduct = async () => {
 
-      if (confirm("Are you sure you want to proceed?")) {        
+      if (confirm("Do you want to delete this product?")) {        
       // Logic to handle product deletion
        const {success, message} = await deleteProduct(product._id);
          if(success){
@@ -52,34 +52,35 @@ const ProductCard = ({product, showActions = false}) => {
     }
 
   return (
-    <Box borderWidth="1px" spacing={7} mt={15} transition="all 0.3s" overflow="hidden" borderRadius="lg" mx={2} p={4} boxShadow="md" bg={bgColor} _hover={{ transform: "transformY(-15px)", shadow: "xl" }}>
+    <Box borderWidth="1px" spacing={7} mt={15} transition="all 0.3s" overflow="hidden" borderRadius="lg" mx={2} p={4} boxShadow="md" bg={bgColor} _hover={{ transform: "translateY(-5px) scale(1.02)", shadow: "xl", borderColor: "teal.300" }}>
         <Image src={product.image} alt={product.name} w='full' h={48} objectFit='cover' />
             <Box p="6">
               <Box d="flex" alignItems="baseline">
-                <Heading fontWeight="bold" fontSize="xl" mb={2}>{product.name}</Heading>
+                <Heading
+                  as="button"
+                  fontWeight="bold"
+                  fontSize="xl"
+                  mb={2}
+                  cursor="pointer"
+                  _hover={{ textDecoration: 'underline', color: 'blue.500' }}
+                  onClick={openViewDialog}
+                >
+                  {product.name}
+                </Heading>
               </Box>
               <Text mb={2} noOfLines={2}>{product.description?.slice(0, 40)}{product.description?.length > 40 ? '...' : ''}</Text>          
 
             <HStack spacing={2} mt={4} d="flex">     
-                <Text fontSize="lg" color="teal.600" fontWeight="bold">${product.price}</Text>
+                <Text fontSize="lg" color="blue.500" fontWeight="bold">${product.price}</Text>
                 <Spacer />
                 {/* View Product Dialog */}
                 <Dialog.Root open={isViewOpen} onOpenChange={setIsViewOpen}>
-                  <Dialog.Trigger asChild>
-                    <IconButton
-                      aria-label="View Product"
-                      variant="outline"
-                      colorScheme="green"
-                      size="sm"                      
-                      onClick={openViewDialog}
-                    ><LuEye /> </IconButton>
-                  </Dialog.Trigger>
                   <Portal>
                     <Dialog.Backdrop />
                     <Dialog.Positioner>
                       <Dialog.Content>
-                        <Dialog.Header>
-                          <Dialog.Title>Product Details</Dialog.Title>
+                        <Dialog.Header pb="0">
+                          <Dialog.Title fontSize="xl">{product.name}</Dialog.Title>
                         </Dialog.Header>
                         {/* X button to close */}
                         <IconButton
@@ -95,9 +96,9 @@ const ProductCard = ({product, showActions = false}) => {
                         <Dialog.Body>
                           <Box w={"full"} p={4}>
                             <Image src={product.image} alt={product.name} w='full' h={48} objectFit='cover' mb={3} />
-                            <Heading fontSize="xl" mb={2}>{product.name}</Heading>
+                            <Heading fontSize="xl" mb={2} fontWeight="bold" color="blue.500">Details</Heading>
                             <Text mb={2} whiteSpace="pre-wrap">{product.description}</Text>
-                            <Text fontWeight="bold" color="teal.600">${product.price}</Text>
+                            <Text fontWeight="bold" color="blue.500">Price: ${product.price}</Text>
                           </Box>
                         </Dialog.Body>
                       </Dialog.Content>
@@ -119,7 +120,7 @@ const ProductCard = ({product, showActions = false}) => {
                     <Dialog.Positioner>
                       <Dialog.Content>
                         <Dialog.Header>
-                          <Dialog.Title>Edit Product</Dialog.Title>
+                          <Dialog.Title color="blue.500">Edit Product</Dialog.Title>
                         </Dialog.Header>
                         <Dialog.Body>
                           <Box w={"full"} p={6} borderWidth={1} bg={useColorModeValue("white", "gray.800")} borderRadius="md" boxShadow="md">

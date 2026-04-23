@@ -40,7 +40,7 @@ const RegisterPage = () => {
     <Container maxW="container.sm" py={4}>
       <VStack spacing={8} w="600px" mx="auto" mb={10} >
 
-      <Heading as={"h1"} size={"2xl"} textAlign="center" mb={8}>Register</Heading>           
+      <Heading as={"h1"} color="blue.500" size={"xl"} textAlign="center" mb={8}>Register</Heading>           
             <Box w={"full"} p={6} borderWidth={1} bg={useColorModeValue("white", "gray.800")} borderRadius="md" boxShadow="md">      
 
 
@@ -71,7 +71,7 @@ const RegisterPage = () => {
           required
         />
         
-        <Button colorScheme="blue" width="sm" mt={4} onClick={handleSubmit}>Register</Button>
+        <Button colorScheme="blue" size="md" mt={4} onClick={handleSubmit}>Register</Button>
       </VStack>
      </Box>      
           </VStack>

@@ -28,7 +28,7 @@ const HomePage = () => {
       <Flex align="center" justify="space-between" px="15px">
         {/* Left: Title */}
         <Text
-          fontSize="25px"
+          fontSize="20px"
           fontWeight="bold"
           color="blue.500"
         >
@@ -37,7 +37,7 @@ const HomePage = () => {
 
         {/* Right: Pagination */}
         {products.length > 0 && (
-          <Text fontSize="14px" fontWeight="bold" color="gray.600" mt="10px" px="15px">
+          <Text fontSize="14px" fontWeight="bold" color="blue.500" mt="10px" px="15px">
             Showing {startNumber}–{endNumber} of {products.length}
           </Text>
         )}
@@ -52,7 +52,7 @@ const HomePage = () => {
       {products.length === 0 && (
         <Text fontSize={15} fontWeight={"bold"} mb={4} textAlign={"center"}>
           No Products Found.
-          <RouterLink to={"/create"}> <Text as="span" color="teal.500" ml={2}> Add New Product </Text></RouterLink>
+          <RouterLink to={"/create"}> <Text as="span" color="blue.500" ml={2}> Add New Product </Text></RouterLink>
         </Text>
       )}
 

@@ -1,6 +1,6 @@
 import { create } from 'zustand';
 
-export const useUserStore = create((set) => ({
+export const useUserStore = create((set, get) => ({
 isAuthenticated: false,
 user: null,
 token: null,
@@ -90,5 +90,7 @@ loginUser: async (credentials) => {
       set({ error: "Network error: " + error.message });
       return { success: false, message: "Network error: " + error.message };
     }
-  }
+  },
+
+  getRole: () => get().user?.role,
 }));

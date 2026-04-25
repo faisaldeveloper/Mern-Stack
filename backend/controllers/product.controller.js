@@ -88,6 +88,49 @@ export const deleteProduct = async (req, res) => {
 	}
 };
 
+export const getAllProducts = async (req, res) => {
+  try {
+    const products = await Product.find({}).populate('user', 'name email');  // Include user details for admin view
+    res.status(200).json({ success: true, data: products });
+  } catch (error) {
+    console.error("Server Error: ", error.message);
+    res.status(500).json({ success: false, message: 'Server Error' });
+  }
+};
+
+export const updateAnyProduct = async (req, res) => {
+  const { id } = req.params;
+  const updates = req.body;
+  const result = productSchema.safeParse(req.body);
+  if (!result.success) {
+    return res.status(400).json({ success: false, message: result.error.issues[0].message });
+  }
+  try {
+    const updatedProduct = await Product.findByIdAndUpdate(id, updates, { new: true });
+    if (!updatedProduct) {
+      return res.status(404).json({ success: false, message: 'Product not found' });
+    }
+    res.status(200).json({ success: true, data: updatedProduct });
+  } catch (error) {
+    console.error("Server Error: ", error.message);
+    res.status(500).json({ success: false, message: 'Server Error' });
+  }
+};
+
+export const deleteAnyProduct = async (req, res) => {
+  const { id } = req.params;
+  try {
+    const deletedProduct = await Product.findByIdAndDelete(id);
+    if (!deletedProduct) {
+      return res.status(404).json({ success: false, message: 'Product not found' });
+    }
+    res.status(200).json({ success: true, message: 'Product deleted successfully' });
+  } catch (error) {
+    console.error("Server Error: ", error.message);
+    res.status(500).json({ success: false, message: 'Server Error' });
+  }
+};
+
 
 
 

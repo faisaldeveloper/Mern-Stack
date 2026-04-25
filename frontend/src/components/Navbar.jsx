@@ -71,6 +71,14 @@ const Navbar = () => {
 							</Button>
 						</RouterLink>
 
+						{user?.role === 'admin' && (
+							<RouterLink to={"/admin"}>
+								<Button size="sm" colorScheme="purple" transition="all 0.2s" _hover={{ transform: 'scale(1.05)', bg: 'blue.400' }}>
+									Admin Dashboard
+								</Button>
+							</RouterLink>
+						)}
+
 						<Button size="sm" colorScheme="red" onClick={handleLogout} transition="all 0.2s" _hover={{ transform: 'scale(1.05)', bg: 'blue.400' }}>
 							Logout
 						</Button>

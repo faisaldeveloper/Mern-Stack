@@ -11,6 +11,9 @@ import ProtectedRoute from "@/components/ProtectedRoute"
 import { useEffect } from "react";
 import { useUserStore } from "@/store/user";
 import Footer from "./components/Footer";
+import AdminDashboard from "./pages/AdminDashboard";
+import ManageUsers from "./pages/ManageUsers";
+import ManageProducts from "./pages/ManageProducts";
 
 function App() {
   const checkAuth = useUserStore((state) => state.checkAuth);
@@ -27,6 +30,9 @@ function App() {
           <Route path="/create" element={<ProtectedRoute><CreatePage /></ProtectedRoute>} />
           <Route path="/login" element={<LoginPage />} />
           <Route path="/register" element={<RegisterPage />} />
+          <Route path="/admin" element={<ProtectedRoute requiredRole="admin"><AdminDashboard /></ProtectedRoute>} />
+          <Route path="/admin/users" element={<ProtectedRoute requiredRole="admin"><ManageUsers /></ProtectedRoute>} />
+          <Route path="/admin/products" element={<ProtectedRoute requiredRole="admin"><ManageProducts /></ProtectedRoute>} />
         </Routes>
         <Footer />
       </Box>

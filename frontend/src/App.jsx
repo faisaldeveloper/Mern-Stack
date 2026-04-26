@@ -7,6 +7,7 @@ import CreatePage from "./pages/CreatePage"
 import LoginPage from "./pages/LoginPage"
 import RegisterPage from "./pages/RegisterPage"
 import { useColorModeValue } from "@/components/ui/color-mode"
+import { Toaster } from "@/components/ui/toaster"
 import ProtectedRoute from "@/components/ProtectedRoute"
 import { useEffect } from "react";
 import { useUserStore } from "@/store/user";
@@ -24,6 +25,7 @@ function App() {
     <>
       <Box minH="100vh" px={4} bg={useColorModeValue("gray.100", "gray.900") }>
         <Navbar />
+        <Toaster />
         <Routes>
           <Route path="/" element={<HomePage />} />
           <Route path="/my-products" element={<ProtectedRoute><MyProductsPage /></ProtectedRoute>} />
@@ -33,7 +35,7 @@ function App() {
           <Route path="/admin" element={<ProtectedRoute requiredRole="admin"><AdminDashboard /></ProtectedRoute>} />
           <Route path="/admin/users" element={<ProtectedRoute requiredRole="admin"><ManageUsers /></ProtectedRoute>} />
           <Route path="/admin/products" element={<ProtectedRoute requiredRole="admin"><ManageProducts /></ProtectedRoute>} />
-        </Routes>
+        </Routes>        
         <Footer />
       </Box>
     </>

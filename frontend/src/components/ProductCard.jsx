@@ -7,6 +7,7 @@ import { useColorModeValue } from '@/components/ui/color-mode';
 import { useProductStore}  from "@/store/product";
 import { Button, Dialog, Portal } from "@chakra-ui/react"
 import  {useUserStore}  from "@/store/user";
+import { toaster } from "@/components/ui/toaster"
 
 
 const ProductCard = ({product, showActions = false}) => {
@@ -18,21 +19,23 @@ const ProductCard = ({product, showActions = false}) => {
     const bgColor = useColorModeValue("white", "gray.800"); 
 
      const { user, isAuthenticated } = useUserStore();
-     const [error, setError] = useState("");
-     const [success, setSuccess] = useState("");
+     const [error, setError] = useState(""); // Used for validation/error messages
 
     const {updateProduct, deleteProduct} = useProductStore();
     const [updatedProduct, setUpdatedProduct] = useState(product);
 
     const handleUpdatedProduct = async () => {
         const {success, message} = await updateProduct(product._id, updatedProduct);
+
         if(success){
-            setSuccess(message);
+            toaster.create({
+              title: "Success",
+              description: message,
+              type: "success",
+            });
             setError("");
-            console.log("msg:", message);
         }else{
             setError(message);
-            setSuccess("");
             console.log("Product Update Failed::: ", message);
         }
     }
@@ -43,6 +46,11 @@ const ProductCard = ({product, showActions = false}) => {
       if (confirm("Do you want to delete this product?")) {        
       // Logic to handle product deletion
        const {success, message} = await deleteProduct(product._id);
+         toaster.create({
+           title: success ? "Deleted" : "Error",
+           description: message,
+           type: success ? "success" : "error",
+         });
          if(success){
              console.log("msg:", message);       
          }else{
@@ -124,8 +132,7 @@ const ProductCard = ({product, showActions = false}) => {
                         </Dialog.Header>
                         <Dialog.Body>
                           <Box w={"full"} p={6} borderWidth={1} bg={useColorModeValue("white", "gray.800")} borderRadius="md" boxShadow="md">
-                            {error && <p style={{ color: "red" }}>{error}</p>}
-                            {success && <p style={{ color: "green" }}>{success}</p>}
+                            {error && <Text color="red.500" mb={4} fontSize="sm" fontWeight="medium">{error}</Text>}
                             <VStack spacing={4}>
                               <Input
                                 type="text"

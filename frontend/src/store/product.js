@@ -1,5 +1,9 @@
 import {create } from "zustand"
 
+const API_URL = import.meta.env.MODE === "development" 
+  ? "/api/products" 
+  : "https://mern-stack-zjtm.onrender.com/api/products";
+
 export const useProductStore = create((set) => ({
   products: [],
   userProducts: [],
@@ -9,7 +13,7 @@ export const useProductStore = create((set) => ({
   //Fetch Products
   fetchProducts: async () => {
     try {
-      const response = await fetch("/api/products")
+      const response = await fetch(API_URL)
       const data = await response.json()
       if (!response.ok) {
         throw new Error(data.message || "Failed to fetch products")
@@ -41,7 +45,7 @@ export const useProductStore = create((set) => ({
   //Add New Product
   addProduct: async (newProduct) =>{
     try {
-    const response = await fetch("/api/products", {
+    const response = await fetch(API_URL, {
       method: "POST",
       headers: {
         "Content-Type": "application/json",

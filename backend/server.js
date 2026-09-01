@@ -6,6 +6,9 @@ import { connectDB } from './config/db.js';
 import productRoutes from './routes/product.route.js';
 import authRoutes from './routes/auth.route.js';
 import userRoutes from './routes/user.route.js';
+import cors from "cors";
+
+
 
 dotenv.config();
 
@@ -15,6 +18,11 @@ const app = express();
 const PORT = process.env.PORT || 5000;
 
 const __dirname = path.resolve();
+
+// Allow requests from Vercel domain
+app.use(cors({
+  origin: ["https://mern-stack-e6wmbq86m-faisal-shahzads-projects-a65d4589.vercel.app", "http://localhost:5000"]
+}));
 
 // Middleware
 app.use(express.json());
